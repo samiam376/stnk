@@ -66,8 +66,10 @@ func (s *SortedSeries) Get(key string) Price {
 func PrintTailAsc(ss *SortedSeries, n *int) {
 	startIdx := 0
 	l := len(ss.SortedKeys)
+	// if n is provided take last n elements
 	if n != nil {
 		startIdx = l - *n - 1
+		//check bounds
 		if 0 > startIdx {
 			startIdx = 0
 		}
@@ -78,11 +80,11 @@ func PrintTailAsc(ss *SortedSeries, n *int) {
 		time := ss.SortedKeys[i]
 		price := ss.Get(time)
 		fmt.Println(divider)
-		fmt.Printf("Time: %s/n", time)
-		fmt.Printf("Open: %f/n", price.Open)
-		fmt.Printf("Close: %f/n", price.Close)
-		fmt.Printf("Low: %f/n", price.Low)
-		fmt.Printf("High: %f/n", price.High)
+		fmt.Printf("Time: %s\n", time)
+		fmt.Printf("Open: %f\n", price.Open)
+		fmt.Printf("Close: %f\n", price.Close)
+		fmt.Printf("Low: %f\n", price.Low)
+		fmt.Printf("High: %f\n", price.High)
 		fmt.Println(divider)
 	}
 }
@@ -105,7 +107,7 @@ func unmarshallIntraDayPricesToSortedSeries(body []byte) (*SortedSeries, error) 
 
 //formated query string to include stock symbol and api key
 func formatIntraDayRequest(api_key string, symbol string) string {
-	request := "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=%s&interval=5min&apikey=%s"
+	request := "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=%s&interval=60min&apikey=%s"
 	formatted := fmt.Sprintf(request, symbol, api_key)
 	return formatted
 }
@@ -125,7 +127,6 @@ func RequestIntraDayPrices(api_key string, symbol string, client AvGoClient) (*S
 	if err != nil {
 		return nil, err
 	}
-
 	ss, err := unmarshallIntraDayPricesToSortedSeries(bodyString)
 
 	if err != nil {

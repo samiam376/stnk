@@ -14,7 +14,6 @@ func HandleIntraDay(args []string) {
 	intraday := flag.NewFlagSet("intraday", flag.ExitOnError)
 	apiKey := intraday.String("api-key", "", "manually provide alpha vantage api key")
 	symbol := intraday.String("symbol", "", "stock symbol")
-
 	intraday.Parse(args)
 	if *apiKey == "" {
 		fmt.Println("Expected api key from alpha vantage")
@@ -33,5 +32,6 @@ func HandleIntraDay(args []string) {
 		os.Exit(1)
 	}
 	take := 5
+	fmt.Printf("Last %d hourly prices for %s\n", take, *symbol)
 	avgo.PrintTailAsc(ss, &take)
 }

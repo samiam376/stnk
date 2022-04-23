@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"sort"
+	"strings"
 )
 
 //price struct defines price at point in time
@@ -34,7 +35,7 @@ type Metadata struct {
 // Timeseries is not neccisarily sorted
 type IntraDayResponse struct {
 	MD Metadata   `json:"Meta Data"`
-	TS Timeseries `json:"Time Series (5min)"`
+	TS Timeseries `json:"Time Series (60min)"`
 }
 
 //Read only container that holds the sorted keys to the timeseries and the underlying map
@@ -60,6 +61,30 @@ func NewSortedSeries(unsorted Timeseries) *SortedSeries {
 
 func (s *SortedSeries) Get(key string) Price {
 	return s.unsortedContainer[key]
+}
+
+func PrintTailAsc(ss *SortedSeries, n *int) {
+	startIdx := 0
+	l := len(ss.SortedKeys)
+	if n != nil {
+		startIdx = l - *n - 1
+		if 0 > startIdx {
+			startIdx = 0
+		}
+	}
+
+	divider := strings.Repeat("-", 15)
+	for i := startIdx; i < l; i++ {
+		time := ss.SortedKeys[i]
+		price := ss.Get(time)
+		fmt.Println(divider)
+		fmt.Printf("Time: %s/n", time)
+		fmt.Printf("Open: %f/n", price.Open)
+		fmt.Printf("Close: %f/n", price.Close)
+		fmt.Printf("Low: %f/n", price.Low)
+		fmt.Printf("High: %f/n", price.High)
+		fmt.Println(divider)
+	}
 }
 
 //interface to call alpha vantage api

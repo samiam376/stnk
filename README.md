@@ -4,7 +4,9 @@
  ## Usage
 
  ### Fetch Intraday Stock Prices
- ./stnk intraday -symbol IBM -api-key AlphaVantageAPIKey
+ Fetches intraday prices at 5 minute intervels. Defaults to last 5, set last=-1 to show all prices
+ ```./stnk intraday -symbol IBM -last 10 -api-key AlphaVantageAPIKey```
 
  ### Fetch Current Quote
- ./stnk quote -symbol IBM -api-key AlphaVantageAPIKey 
+ Fetches the current quote for a stock.
+ ```./stnk quote -symbol IBM -api-key AlphaVantageAPIKey```

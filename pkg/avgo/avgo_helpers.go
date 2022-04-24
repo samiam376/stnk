@@ -22,10 +22,14 @@ func PrintTailAsc(ss *SortedSeries, n *int) {
 	l := len(ss.SortedKeys)
 	// if n is provided take last n elements
 	if n != nil {
-		startIdx = l - *n - 1
-		//check bounds
-		if 0 > startIdx {
+		if *n == -1 {
 			startIdx = 0
+		} else {
+			startIdx = l - *n - 1
+			//check bounds
+			if 0 > startIdx {
+				startIdx = 0
+			}
 		}
 	}
 

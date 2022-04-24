@@ -4,16 +4,20 @@ import "sort"
 
 // defines a singe quote
 type Quote struct {
-	Symbol           string  `json:"01. symbol:"`
-	Open             float64 `json:"02. open:,string"`
-	High             float64 `json:"03. high:,string"`
-	Low              float64 `json:"04: low:,string"`
-	Price            float64 `json:"05. price:,string"`
-	Volume           float64 `json:"06. volume:,string"`
-	LatestTradingDay string  `json:"07. latest trading day:"`
-	PreviousClose    float64 `json:"08. previous close:,string"`
-	Change           float64 `json:"09. change:,string"`
-	ChangePct        string  `json:"10. change percent:"`
+	Symbol           string  `json:"01. symbol"`
+	Open             float64 `json:"02. open,string"`
+	High             float64 `json:"03. high,string"`
+	Low              float64 `json:"04: low,string"`
+	Price            float64 `json:"05. price,string"`
+	Volume           float64 `json:"06. volume,string"`
+	LatestTradingDay string  `json:"07. latest trading day"`
+	PreviousClose    float64 `json:"08. previous close,string"`
+	Change           float64 `json:"09. change,string"`
+	ChangePct        string  `json:"10. change percent"`
+}
+
+type QuoteResponse struct {
+	Quote Quote `json:"Global Quote"`
 }
 
 //price struct defines price at point in time

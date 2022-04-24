@@ -28,13 +28,13 @@ func RequestQuote(api_key string, symbol string, client AvGoClient) (*Quote, err
 		return nil, err
 	}
 
-	resp := &Quote{}
+	resp := &QuoteResponse{}
 	err = json.Unmarshal(bodyString, resp)
 	if err != nil {
 		return nil, err
 	}
 
-	return resp, nil
+	return &resp.Quote, nil
 
 }
 

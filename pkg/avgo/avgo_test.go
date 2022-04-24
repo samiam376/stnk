@@ -2,6 +2,7 @@ package avgo
 
 import (
 	"bytes"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"testing"
@@ -27,18 +28,30 @@ func TestUnmarshallIntraDayPricesToSortedSeries(t *testing.T) {
 	}
 }
 
-type mockClient struct{}
+type mockClient struct {
+	Response io.ReadCloser
+}
 
 func (m mockClient) Get(input string) (*http.Response, error) {
-	data, _ := ioutil.ReadFile("mock_response.json")
-	r := ioutil.NopCloser(bytes.NewReader(data))
-	response := &http.Response{StatusCode: 200, Body: r}
+	response := &http.Response{StatusCode: 200, Body: m.Response}
 	return response, nil
 }
 
 func TestRequestIntraDayPrices(t *testing.T) {
-	client := &mockClient{}
+	data, _ := ioutil.ReadFile("mock_intraday_response.json")
+	r := ioutil.NopCloser(bytes.NewReader(data))
+	client := &mockClient{Response: r}
 	_, err := RequestIntraDayPrices("mockkey", "IBM", client)
+	if err != nil {
+		t.Error("failed")
+	}
+}
+
+func TestRequestQuote(t *testing.T) {
+	data, _ := ioutil.ReadFile("mock_quote.json")
+	r := ioutil.NopCloser(bytes.NewReader(data))
+	client := &mockClient{Response: r}
+	_, err := RequestQuote("mockkey", "IBM", client)
 	if err != nil {
 		t.Error("failed")
 	}

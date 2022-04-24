@@ -20,7 +20,7 @@ func TestFormatRequest(t *testing.T) {
 }
 
 func TestUnmarshallIntraDayPricesToSortedSeries(t *testing.T) {
-	data, _ := ioutil.ReadFile("mock_response.json")
+	data, _ := ioutil.ReadFile("mock_intraday_response.json")
 	_, err := unmarshallIntraDayPricesToSortedSeries(data)
 	if err != nil {
 		t.Errorf("failed to unmarshal with error: %s", err)
